@@ -1,7 +1,9 @@
 <template>
 	<div>
 		<nav class="navBar">
-			<img src="~assets/images/logo.svg">
+      <NuxtLink to="/" class="logo">
+        <img src="~assets/images/logo.svg" alt="Ir para Home">
+      </NuxtLink>
             
 		</nav>
 		<div class="container">
@@ -22,15 +24,23 @@
 }
 
 .container {
-  
-
-  margin: 1.5rem auto;         /* margem vertical e centralização horizontal */
-  width: 95%;             /* largura relativa à tela */
-  height: 100%;
-  max-width: 100%;          /* evita esticar demais em telas grandes */
-
-  background-color: brown;
-  border-radius: 4px;
-  box-sizing: border-box;    /* padding incluído no cálculo do tamanho */
+  display: flex;
+  margin: 1.5rem auto; 
+  width: 95%;            
+  height: 880px;
+  max-width: 100%; 
+  border-width:  9px;
+  border-color: black;
+  border-radius: 4px  black;
+  box-sizing: border-box; 
+}
+.logo img {
+  width: 193px;
+  height: 72px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.logo img:hover {
+  transform: scale(1.05);
 }
 </style>
