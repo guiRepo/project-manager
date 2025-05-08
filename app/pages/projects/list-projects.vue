@@ -42,8 +42,9 @@ const listProjects = [
 
 <template>
 	<main class="container">
-		<h1 class="list-project-title">Projeto  <span class="number-projects">({{ listProjects.length }})</span></h1>
-
+    <div class="header">
+      <h1 class="list-project-title">Projeto  <span class="number-projects">({{ listProjects.length }})</span></h1>
+    </div>
 	<section>
     <CardProject />
 	</section>
@@ -69,5 +70,8 @@ const listProjects = [
 		font-size: 17px;
 		margin-top: 5px;
     vertical-align: middle;
+  }
+  .header {
+    margin-bottom: 20px;
   }
 </style>
