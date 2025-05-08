@@ -25,11 +25,11 @@
 
 .container {
   display: flex;
-  margin: 1.5rem auto; 
+  margin: 3.5rem auto; 
   width: 95%;            
   height: 880px;
   max-width: 100%; 
-  border-width:  9px;
+  border-width:  1px;
   border-color: black;
   border-radius: 4px  black;
   box-sizing: border-box; 

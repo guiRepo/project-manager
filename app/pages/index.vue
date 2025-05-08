@@ -29,6 +29,7 @@
 		width: 230px;
 		height: 52px;
 		border-radius: 26px;
+		margin-top: 20px
 	}
 	.new-project-button-text {
 		position: relative;
@@ -52,6 +53,7 @@
 		letter-spacing: 0%;
 		text-align: center;
 		vertical-align: middle;
+		margin-bottom: 20px;
 	}
 	.sub-title {
 		color: #717171;
