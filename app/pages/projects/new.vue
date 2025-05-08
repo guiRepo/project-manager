@@ -1,4 +1,27 @@
 <script setup lang="ts">
+	import { ref } from 'vue'
+
+	const form = ref({
+		nome: '',
+		cliente: '',
+		inicio: '',
+		fim: '',
+		capa: null,
+		capaPreview: null
+	})
+
+	const handleFile = (e) => {
+		const file = e.target.files[0]
+		if (file) {
+			form.value.capa = file
+			form.value.capaPreview = URL.createObjectURL(file)
+		}
+	}
+
+	const handleSubmit = () => {
+		console.log('Formulário enviado:', form.value)
+		// Aqui você pode enviar via fetch ou $fetch para uma API
+	}
 </script>
 
 <template>
@@ -11,7 +34,47 @@
 
 	<section >
 		<div class="container-itens">
-			<div class="container-input">
+			<form  @submit.prevent="handleSubmit">
+				<div>
+					<label class="text-input">Nome do projeto <span class="required">(Obrigatório)</span></label>
+					<input v-model="form.nome" required class="w-196 p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400 text-black bg-white" type="text" />
+				</div>
+
+				<div>
+					<label class="text-input">Cliente <span class="required">(Obrigatório)</span></label>
+					<input v-model="form.cliente" required class="w-196 p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400 text-black bg-white" type="text" />
+				</div>
+
+				<div class="flex space-x-4">
+					<div class="flex-1">
+						<label class="text-input">Data de Início <span class="required">(Obrigatório)</span></label>
+						<input v-model="form.inicio" required class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400  text-black bg-white" type="date" />
+					</div>
+					<div class="flex-1">
+						<label class="text-input">Data Final <span class="required">(Obrigatório)</span></label>
+						<input v-model="form.fim" required class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400  text-black bg-white" type="date" />
+					</div>
+    		</div>
+				<div>
+					<label class="text-input">Capa do projeto</label>
+					<div class="border-dashed border-2 border-gray-600 p-4 rounded text-center">
+						<input type="file" accept="image/png, image/jpeg" class="hidden" ref="fileInput" @change="handleFile" />
+						<div @click="$refs.fileInput.click()" class="cursor-pointer inline-block px-4 py-2 mt-2 text-gray-600 border border-gray-600 rounded hover:bg-purple-100">
+							Selecionar
+						</div>
+						<div v-if="form.capaPreview" class="mt-4">
+							<img :src="form.capaPreview" class="max-h-40 mx-auto rounded" />
+						</div>
+					</div>
+				</div>
+
+
+				<button type="submit" class="w-full py-3 bg-purple-400 text-white rounded-full hover:bg-purple-500 transition">
+					Salvar projeto
+				</button>
+			</form>
+
+			<!-- <div class="container-input">
 				<label class="text-input">Nome do projeto <span class="required">(Obrigatório)</span></label>
 				<input class="input-name" type="text">
 			</div>
@@ -36,7 +99,7 @@
 				<button>
 					<input class="input-name" type="file">
 				</button>
-			</div>
+			</div> -->
 		</div>
 	</section>
 	</main>
@@ -140,24 +203,13 @@
 		color: #695CCD;
 	}
 	.text-input {
+		display: block;
 		color: #695CCD;
 		font-family: Encode Sans Semi Expanded;
 		font-weight: 500;
 		font-size: 18px;
 		line-height: 22px;
 		letter-spacing: 0%;
-		vertical-align: bottom;
-
+		margin-bottom: calc(var(--spacing) * 1) 
 	}
-	.required {
-		columns: #717171;
-		font-family: Encode Sans Semi Expanded;
-		font-weight: 400;
-		font-size: 14px;
-		line-height: 22px;
-		letter-spacing: 0%;
-		vertical-align: bottom;
-	}
-
-
 </style>
