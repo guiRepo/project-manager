@@ -7,9 +7,11 @@ defineProps({
   subTitle: { type: String, default: 'Default client' },
   beginDate: { type: String, default: '00/00/0000' },
   endDate: { type: String, default: '11/11/1111' },
-  cover: { type: String, default: new URL('@/assets/images/default-cover.png', import.meta.url).href }
+  cover: { type: String, default: '' }
 })
-const isFavorite = ref(false)
+const isFavorite = ref(false);
+const defaultImage = new URL('@/assets/images/default-cover.png', import.meta.url).href; 
+
 const onEdit = () => {
   console.log('Editar clicado')
 }
@@ -38,7 +40,7 @@ const itemsDropDownMenu = ref<DropdownMenuItem[]>([
 <template>
   <div class="card-container">
     <div class="image-container">
-      <img class="logo" :src="cover" alt="Imagem do projeto">
+      <img class="logo" :src="cover !== ''? cover : defaultImage" alt="Imagem do projeto">
 
       <div class="buttons-overlay">
         <button class="cursor-pointer w-6 h-6" @click="toggleFavorite" >
@@ -77,21 +79,17 @@ const itemsDropDownMenu = ref<DropdownMenuItem[]>([
 
 <style scoped>
 .card-container {
-  width: 346px;
-  height: 199px;
-}
-.information-container {
-  padding: 25px;
-  background-color: #fff;
-  border-bottom-right-radius: 16px;
-  border-bottom-left-radius: 16px;
-  
+  width: 100%;
+  max-width: 346px; 
+  height: auto; 
 }
 .logo {
+  width: 100%; 
+  height: 232px; 
+  max-height: 232px;
+  object-fit: cover;
   border-top-right-radius: 16px;
   border-top-left-radius: 16px;
-  width: 346px;
-  height: 232px;
 }
 .title {
   color: #1F1283;
@@ -101,6 +99,13 @@ const itemsDropDownMenu = ref<DropdownMenuItem[]>([
   line-height: 100%;
   letter-spacing: 0%;
   margin-bottom: 15px;
+}
+.information-container {
+  padding: 25px;
+  background-color: #fff;
+  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 16px;
+  
 }
 .sub-title{
   color: #717171;
@@ -173,25 +178,12 @@ const itemsDropDownMenu = ref<DropdownMenuItem[]>([
   transition: background 0.3s ease;
 }
 
-.btn.edit {
-  color: #4f46e5; /* Indigo-600 */
-  border: 1px solid #4f46e5;
-}
-
-.btn.delete {
-  color: #dc2626; /* Red-600 */
-  border: 1px solid #dc2626;
-}
-
-.btn:hover {
-  background-color: rgba(255, 255, 255, 1);
-}
-
 .icon-more {
   margin-right: 10px;
   width: calc(var(--spacing) * 7);
   height: calc(var(--spacing) * 7); 
   color: #FFFFFF;
+  cursor: pointer;
 }
 .icon-favorite {
   margin-right: 10px;
