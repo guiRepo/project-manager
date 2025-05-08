@@ -1,0 +1,71 @@
+<template>
+  <form class="max-w-xl mx-auto p-6 bg-purple-50 rounded-lg shadow-md space-y-6" @submit.prevent="handleSubmit">
+    <!-- Nome do projeto -->
+    <div>
+      <label class="block mb-1 font-medium text-purple-700">Nome do projeto <span class="text-red-500">(Obrigatório)</span></label>
+      <input v-model="form.nome" required class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400" type="text" />
+    </div>
+
+    <!-- Cliente -->
+    <div>
+      <label class="block mb-1 font-medium text-purple-700">Cliente <span class="text-red-500">(Obrigatório)</span></label>
+      <input v-model="form.cliente" required class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400" type="text" />
+    </div>
+
+    <!-- Datas -->
+    <div class="flex space-x-4">
+      <div class="flex-1">
+        <label class="block mb-1 font-medium text-purple-700">Data de Início <span class="text-red-500">(Obrigatório)</span></label>
+        <input v-model="form.inicio" required class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400" type="date" />
+      </div>
+      <div class="flex-1">
+        <label class="block mb-1 font-medium text-purple-700">Data Final <span class="text-red-500">(Obrigatório)</span></label>
+        <input v-model="form.fim" required class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400" type="date" />
+      </div>
+    </div>
+
+    <!-- Capa do projeto -->
+    <div class="border-dashed border-2 border-purple-300 p-4 rounded text-center">
+      <label class="block mb-2 font-medium text-purple-700">Capa do projeto</label>
+      <input type="file" accept="image/png, image/jpeg" class="hidden" ref="fileInput" @change="handleFile" />
+      <UIcon name="i-lucide-circle-plus" class="icon" />
+      <div @click="$refs.fileInput.click()" class="cursor-pointer inline-block px-4 py-2 mt-2 text-purple-700 border border-purple-400 rounded hover:bg-purple-100">
+        Selecionar
+      </div>
+      <div v-if="form.capaPreview" class="mt-4">
+        <img :src="form.capaPreview" class="max-h-40 mx-auto rounded" />
+      </div>
+    </div>
+
+    <!-- Botão -->
+    <button type="submit" class="w-full py-3 bg-purple-400 text-white rounded-full hover:bg-purple-500 transition">
+      Salvar projeto
+    </button>
+  </form>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const form = ref({
+  nome: '',
+  cliente: '',
+  inicio: '',
+  fim: '',
+  capa: null,
+  capaPreview: null
+})
+
+const handleFile = (e) => {
+  const file = e.target.files[0]
+  if (file) {
+    form.value.capa = file
+    form.value.capaPreview = URL.createObjectURL(file)
+  }
+}
+
+const handleSubmit = () => {
+  console.log('Formulário enviado:', form.value)
+  // Aqui você pode enviar via fetch ou $fetch para uma API
+}
+</script>
