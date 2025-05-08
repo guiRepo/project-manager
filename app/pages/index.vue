@@ -1,7 +1,6 @@
 <script setup>
 </script>
 
-
 <template>
 	<div class="container">	
 		<h1 class="title">Nenhum projeto</h1>

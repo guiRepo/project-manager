@@ -63,11 +63,11 @@
 					<div class="file-container">
 						<UIcon name="i-lucide-hard-drive-upload" class="icon" />
 						<label class="required">Escolha uma imagem .jpg ou .png no seu dispositivo</label>
-						<input ref="fileInput"  type="file" accept="image/png, image/jpeg" class="hidden" @change="handleFile" >
-						<div class="file-button" @click="$refs.fileInput.click()">Selecionar</div>
-						<div v-if="form.capaPreview" class="mt-4">
-								<img :src="form.capaPreview" class="max-h-40 mx-auto rounded" >
-						</div>
+							<input ref="fileInput"  type="file" accept="image/png, image/jpeg" class="hidden" @change="handleFile" >
+							<div class="file-button" @click="$refs.fileInput.click()">Selecionar</div>
+							<div v-if="form.capaPreview" class="mt-4">
+									<img :src="form.capaPreview" class="max-h-40 mx-auto rounded" >
+							</div>
 					</div>
 				</div>
 
