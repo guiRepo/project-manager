@@ -3,13 +3,17 @@
 	import { useRouter } from 'vue-router'
 
 	const router = useRouter();
-	const form = ref({ projectId: Math.random().toString(36).substring(2, 15), projectName: '', client: '', beginDate: '', endDate: '', cover: null, capaPreview: ''});
+	const form = ref({ projectId: Math.random().toString(36).substring(2, 15), projectName: '', client: '', beginDate: '', endDate: '', cover: '', capaPreview: ''});
 
 	const handleFile = (e) => {
 		const file = e.target.files[0]
 		if (file) {
-			form.value.cover = file
-			form.value.capaPreview = URL.createObjectURL(file)
+			const reader = new FileReader();
+			reader.onload = () => {
+				form.value.cover = reader.result as string;
+				form.value.capaPreview = reader.result as string;
+    	};
+    	reader.readAsDataURL(file); 
 		}
 	};
 

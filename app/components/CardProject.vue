@@ -18,9 +18,9 @@
         client: props.subTitle,
         beginDate: props.beginDate,
         endDate: props.endDate,
+        cover: props.cover,
         capaPreview: props.cover
       } 
-      console.log(projetoParaEditar)
       localStorage.setItem('editarProjeto', JSON.stringify(projetoParaEditar))
       router.push(`/projects/id?${props.projectId}`)
       }        

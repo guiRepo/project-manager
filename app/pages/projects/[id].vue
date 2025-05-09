@@ -2,7 +2,7 @@
 	import { useRouter } from 'vue-router'
 
 	const router = useRouter()
-	const form = reactive({ projectId:'',projectName: '', client: '', beginDate: '', endDate: '', cover: null, capaPreview: ''})
+	const form = reactive({ projectId:'',projectName: '', client: '', beginDate: '', endDate: '', cover:'', capaPreview: ''})
 	const props = defineProps<{
 		initialData?: {
 			projectId: string
@@ -16,9 +16,11 @@
 	}>();
 	
 	onMounted(()=> {
-		const data = localStorage.getItem('editarProjeto');
+		const data = localStorage.getItem('editarProjeto');		
 		if (data) {
 			const projeto = JSON.parse(data);
+			console.log(projeto);
+
 			Object.assign(form, projeto);
 		}
 	})
@@ -32,10 +34,14 @@
 	const handleFile = (e) => {
 		const file = e.target.files[0]
 		if (file) {
-			form.cover = file
-			form.capaPreview = URL.createObjectURL(file)
+			const reader = new FileReader();
+			reader.onload = () => {
+				form.cover = reader.result as string;
+				form.capaPreview = reader.result as string;
+    	};
+    	reader.readAsDataURL(file); 
 		}
-	}
+	};
 
 	const handleSubmit = () => {
 		const projetoAtualizado = { ...form };
@@ -44,7 +50,7 @@
 		let lista = listaString ? JSON.parse(listaString) : [];
 
 		lista = lista.map((p) => {
-			if (p.id === props.initialData?.projectId) {
+			if (p.projectId === projetoAtualizado.projectId) {			
 				return { ...p, ...projetoAtualizado }
 			}
 			return p;

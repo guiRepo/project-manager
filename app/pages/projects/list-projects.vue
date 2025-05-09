@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import CardProject from '~/components/CardProject.vue';
-  import type { Project } from '@/types/Project';
+  import type { Project } from '~/models/Project';
 
   const allProjects = ref<Project[]>([]);
   const value = ref(true);
@@ -10,8 +10,19 @@
     { label: 'Mais recentes', value: 'recent' },
     { label: 'Prazo mais próximo', value: 'deadline' }
   ];
+  onBeforeRouteUpdate(() => {
+    loadProjects();
+  });
 
   onMounted(() => {  
+    loadProjects();
+  });
+
+  watch(allProjects, (novaLista) => {
+    localStorage.setItem('allProjects', JSON.stringify(novaLista))
+  }, { deep: true });
+
+  const loadProjects = () => {
     const projetosSalvos = localStorage.getItem('allProjects');
     if (projetosSalvos) 
       allProjects.value = JSON.parse(projetosSalvos);
@@ -22,11 +33,7 @@
       allProjects.value.push(JSON.parse(dados));
       localStorage.removeItem('novoProjeto');
     }
-  });
-
-  watch(allProjects, (novaLista) => {
-    localStorage.setItem('allProjects', JSON.stringify(novaLista))
-  }, { deep: true });
+  }
 
   const projetosOrdenados = computed(() => {
     const lista = [...allProjects.value]

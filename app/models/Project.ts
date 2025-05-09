@@ -5,5 +5,5 @@ export interface Project {
   beginDate: string,
   endDate: string,
   cover: string,
-  capaPreview: string
+  capaPreview: File
 }
