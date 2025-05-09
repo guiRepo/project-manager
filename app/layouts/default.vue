@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const logo = new URL('public/images/logo.png', import.meta.url).href;
+  const logo = new URL('public/images/logo.svg', import.meta.url).href;
 </script>
 
 <template>

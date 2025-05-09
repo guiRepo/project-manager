@@ -1,7 +1,9 @@
 <script setup lang="ts">
   import CardProject from '~/components/CardProject.vue';
+  import { useRouter } from 'vue-router'
   import type { Project } from '~/models/Project';
 
+  const router = useRouter()
   const allProjects = ref<Project[]>([]);
   const value = ref(true);
   const filtroSelecionado = ref('alphabetical');
@@ -10,11 +12,16 @@
     { label: 'Mais recentes', value: 'recent' },
     { label: 'Prazo mais próximo', value: 'deadline' }
   ];
+  const projetosSalvos = localStorage.getItem('allProjects');
+
   onBeforeRouteUpdate(() => {
     loadProjects();
   });
 
   onMounted(() => {  
+    if (!projetosSalvos) 
+      router.push('/');
+
     loadProjects();
   });
 
@@ -23,7 +30,6 @@
   }, { deep: true });
 
   const loadProjects = () => {
-    const projetosSalvos = localStorage.getItem('allProjects');
     if (projetosSalvos) 
       allProjects.value = JSON.parse(projetosSalvos);
 
