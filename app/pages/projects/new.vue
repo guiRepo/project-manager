@@ -1,26 +1,22 @@
 <script setup lang="ts">
 	import { ref } from 'vue'
+	import { useRouter } from 'vue-router'
 
-	const form = ref({
-		nome: '',
-		cliente: '',
-		inicio: '',
-		fim: '',
-		capa: null,
-		capaPreview: null
-	})
+	const router = useRouter()
+	const form = ref({ projectName: '', client: '', beginDate: '', endDate: '', cover: null, capaPreview: ''})
 
 	const handleFile = (e) => {
 		const file = e.target.files[0]
 		if (file) {
-			form.value.capa = file
+			form.value.cover = file
 			form.value.capaPreview = URL.createObjectURL(file)
 		}
 	}
 
 	const handleSubmit = () => {
 		console.log('Formulário enviado:', form.value)
-		// Aqui você pode enviar via fetch ou $fetch para uma API
+		localStorage.setItem('novoProjeto', JSON.stringify(form.value))		
+		router.push('/projects/list-projects') 
 	}
 </script>
 
@@ -39,22 +35,22 @@
 			<form  @submit.prevent="handleSubmit">
 				<div class="container-input">
 					<label class="text-input">Nome do projeto <span class="required">(Obrigatório)</span></label>
-					<input v-model="form.nome" required class="w-196 p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400 text-black bg-white" type="text" >
+					<input v-model="form.projectName" required class="w-196 p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400 text-black bg-white" type="text" >
 				</div>
 
 				<div class="container-input">
 					<label class="text-input">Cliente <span class="required">(Obrigatório)</span></label>
-					<input v-model="form.cliente" required class="w-196 p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400 text-black bg-white" type="text" >
+					<input v-model="form.client" required class="w-196 p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400 text-black bg-white" type="text" >
 				</div>
 
 				<div class="flex space-x-4">
 					<div class="flex-1">
 						<label class="text-input">Data de Início <span class="required">(Obrigatório)</span></label>
-						<input v-model="form.inicio" required class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400  text-black bg-white accent-purple-500"  type="date">
+						<input v-model="form.beginDate" required class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400  text-black bg-white accent-purple-500"  type="date">
 					</div>
 					<div class="flex-1">
 						<label class="text-input">Data Final <span class="required">(Obrigatório)</span></label>
-						<input v-model="form.fim" required class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400  text-black bg-white" type="date" >
+						<input v-model="form.endDate" required class="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-purple-400  text-black bg-white" type="date" >
 					</div>
     		</div>
 
@@ -162,10 +158,8 @@
 		justify-content: center;
 		flex-direction: column;
 	}
-	.container {
-
+	.container{
 		max-width: 100%; 
-
 	}
 	.container-data {
 		display: flex;

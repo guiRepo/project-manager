@@ -37,7 +37,7 @@ const itemsDropDownMenu = ref<DropdownMenuItem[]>([
 <template>
   <div class="card-container">
     <div class="image-container">
-      <img class="logo" :src="cover !== ''? cover : defaultImage" alt="Imagem do projeto">
+      <img class="logo" :src="cover !== null ? cover : defaultImage" alt="Imagem do projeto">
 
       <div class="buttons-overlay">
         <button class="cursor-pointer w-6 h-6" @click="toggleFavorite" >

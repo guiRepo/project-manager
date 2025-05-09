@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import CardProject from '~/components/CardProject.vue';
 
-const allProjects = [
-  { projectName: 'Bruce',     client: 'batman',  beginDate: '2023-11-10', endDate: '2024-12-01', cover: new URL('@/assets/images/proj.png', import.meta.url).href },
-  { projectName: 'Clark', client: 'superman', beginDate: '2024-01-01', endDate: '2024-06-01', cover: ''},
-  { projectName: 'Diana', client: 'wonderwoman', beginDate: '2022-03-10', endDate: '2023-01-01', cover: ''},
-  { projectName: 'Hal', client: 'greenlanter', beginDate: '2024-03-15', endDate: '2024-04-20', cover: ''},
-];
+const allProjects = ref([
+  { projectName: 'Bruce', client: 'batman',  beginDate: '2023-11-10', endDate: '2024-12-01', cover: new URL('@/assets/images/proj.png', import.meta.url).href, capaPreview: '' },
+  { projectName: 'Clark', client: 'superman', beginDate: '2024-01-01', endDate: '2024-06-01', cover: null, capaPreview: ''},
+  { projectName: 'Diana', client: 'wonderwoman', beginDate: '2022-03-10', endDate: '2023-01-01', cover: null, capaPreview: ''},
+  { projectName: 'Hal', client: 'greenlanter', beginDate: '2024-03-15', endDate: '2024-04-20', cover: null, capaPreview: ''},
+]);
 const value = ref(true);
 
 const filtros = [
@@ -17,7 +17,7 @@ const filtros = [
 const filtroSelecionado = ref('alphabetical');
 
 const projetosOrdenados = computed(() => {
-  const lista = [...allProjects]
+  const lista = [...allProjects.value]
   switch (filtroSelecionado.value) {
     case 'alphabetical':
       return lista.sort((a, b) => a.projectName.localeCompare(b.projectName))
@@ -30,10 +30,21 @@ const projetosOrdenados = computed(() => {
   }
 });
 
+
+onMounted(() => {
+  const dados = localStorage.getItem('novoProjeto')
+  
+  if (dados) {
+    console.log(dados);
+    
+    allProjects.value.push(JSON.parse(dados))
+    // localStorage.removeItem('novoProjeto')
+  }
+})
 </script>
 
 <template>
-	<main class="container px-4 md:px-8">
+  <main class="container px-4 md:px-8">
     <div class="header">
       <div class="left-side">
         <h1 class="list-project-title">Projeto  <span class="number-projects">({{ projetosOrdenados.length }})</span></h1>
@@ -80,9 +91,7 @@ const projetosOrdenados = computed(() => {
 		margin-top: 15px;
 	}
 	.container {
-
 		max-width: 100%; 
-
 	}
   .number-projects {
     color: #695CCD;
