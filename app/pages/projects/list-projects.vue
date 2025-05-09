@@ -2,19 +2,18 @@
 import CardProject from '~/components/CardProject.vue';
 
 const allProjects = ref([
-  { projectName: 'Bruce', client: 'batman',  beginDate: '2023-11-10', endDate: '2024-12-01', cover: new URL('@/assets/images/proj.png', import.meta.url).href, capaPreview: '' },
-  { projectName: 'Clark', client: 'superman', beginDate: '2024-01-01', endDate: '2024-06-01', cover: null, capaPreview: ''},
-  { projectName: 'Diana', client: 'wonderwoman', beginDate: '2022-03-10', endDate: '2023-01-01', cover: null, capaPreview: ''},
-  { projectName: 'Hal', client: 'greenlanter', beginDate: '2024-03-15', endDate: '2024-04-20', cover: null, capaPreview: ''},
+  { projectId: '1', projectName: 'Bruce', client: 'batman',  beginDate: '2023-11-10', endDate: '2024-12-01', cover: new URL('@/assets/images/proj.png', import.meta.url).href, capaPreview: '' },
+  { projectId: '2', projectName: 'Clark', client: 'superman', beginDate: '2024-01-01', endDate: '2024-06-01', cover: new URL('@/assets/images/proj.png', import.meta.url).href, capaPreview: ''},
+  { projectId: '3', projectName: 'Diana', client: 'wonderwoman', beginDate: '2022-03-10', endDate: '2023-01-01', cover: new URL('@/assets/images/proj.png', import.meta.url).href, capaPreview: ''},
+  { projectId: '4', projectName: 'Hal', client: 'greenlanter', beginDate: '2024-03-15', endDate: '2024-04-20', cover: new URL('@/assets/images/proj.png', import.meta.url).href, capaPreview: ''},
 ]);
 const value = ref(true);
-
+const filtroSelecionado = ref('alphabetical');
 const filtros = [
   { label: 'Orden alfabética', value: 'alphabetical' },
   { label: 'Mais recentes', value: 'recent' },
   { label: 'Prazo mais próximo', value: 'deadline' }
 ]
-const filtroSelecionado = ref('alphabetical');
 
 const projetosOrdenados = computed(() => {
   const lista = [...allProjects.value]
@@ -30,17 +29,27 @@ const projetosOrdenados = computed(() => {
   }
 });
 
-
 onMounted(() => {
+  console.log(allProjects);
+  
+  const projetosSalvos = localStorage.getItem('allProjects')
+  if (projetosSalvos) {
+    allProjects.value = JSON.parse(projetosSalvos)
+  }
+
   const dados = localStorage.getItem('novoProjeto')
   
   if (dados) {
     console.log(dados);
     
     allProjects.value.push(JSON.parse(dados))
-    // localStorage.removeItem('novoProjeto')
+    localStorage.removeItem('novoProjeto')
   }
 })
+
+watch(allProjects, (novaLista) => {
+  localStorage.setItem('allProjects', JSON.stringify(novaLista))
+}, { deep: true })
 </script>
 
 <template>
@@ -72,6 +81,7 @@ onMounted(() => {
       <CardProject
         v-for="(projeto, index) in projetosOrdenados"
         :key="index"
+        :project-id="projeto.projectId"
         :title="projeto.projectName"
         :sub-title="projeto.client"
         :begin-date="projeto.beginDate"

@@ -3,7 +3,7 @@
 	import { useRouter } from 'vue-router'
 
 	const router = useRouter()
-	const form = ref({ projectName: '', client: '', beginDate: '', endDate: '', cover: null, capaPreview: ''})
+	const form = ref({ projectId: Math.random().toString(36).substring(2, 15), projectName: '', client: '', beginDate: '', endDate: '', cover: null, capaPreview: ''})
 
 	const handleFile = (e) => {
 		const file = e.target.files[0]
@@ -14,7 +14,6 @@
 	}
 
 	const handleSubmit = () => {
-		console.log('Formulário enviado:', form.value)
 		localStorage.setItem('novoProjeto', JSON.stringify(form.value))		
 		router.push('/projects/list-projects') 
 	}

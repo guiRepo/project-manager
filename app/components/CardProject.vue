@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from '@nuxt/ui';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router'
 
-defineProps({
+
+const props = defineProps({
+  projectId: {type: String, default: ''},
   title: { type: String, default: 'Default title' },
   subTitle: { type: String, default: 'Default client' },
   beginDate: { type: String, default: '00/00/0000' },
   endDate: { type: String, default: '11/11/1111' },
   cover: { type: String, default: '' }
 })
+
+const router = useRouter()
 const isFavorite = ref(false);
 const defaultImage = new URL('@/assets/images/default-cover.png', import.meta.url).href; 
-
-const onDelete = () => {
-  console.log('Excluir clicado')
-}
 
 const toggleFavorite = () => {
   isFavorite.value = !isFavorite.value
@@ -24,7 +25,20 @@ const itemsDropDownMenu = ref<DropdownMenuItem[]>([
   {
     label: 'Editar',
     icon: 'i-material-symbols:open-in-new-down-rounded',
-    color: 'primary'
+    color: 'primary',
+    onSelect: () => {
+    const projetoParaEditar = {
+      projectId: props.projectId,
+      projectName: props.title,
+      client: props.subTitle,
+      beginDate: props.beginDate,
+      endDate: props.endDate,
+      capaPreview: props.cover
+    } 
+    console.log(projetoParaEditar)
+    localStorage.setItem('editarProjeto', JSON.stringify(projetoParaEditar))
+    router.push(`/projects/id?${props.projectId}`)
+    }        
   },
   {
     label: 'Remover',
