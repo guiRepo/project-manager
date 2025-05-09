@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import CardProject from '~/components/CardProject.vue';
 
-const allProjects = ref([
-  { projectId: '1', projectName: 'Bruce', client: 'batman',  beginDate: '2023-11-10', endDate: '2024-12-01', cover: new URL('@/assets/images/proj.png', import.meta.url).href, capaPreview: '' },
-  { projectId: '2', projectName: 'Clark', client: 'superman', beginDate: '2024-01-01', endDate: '2024-06-01', cover: new URL('@/assets/images/proj.png', import.meta.url).href, capaPreview: ''},
-  { projectId: '3', projectName: 'Diana', client: 'wonderwoman', beginDate: '2022-03-10', endDate: '2023-01-01', cover: new URL('@/assets/images/proj.png', import.meta.url).href, capaPreview: ''},
-  { projectId: '4', projectName: 'Hal', client: 'greenlanter', beginDate: '2024-03-15', endDate: '2024-04-20', cover: new URL('@/assets/images/proj.png', import.meta.url).href, capaPreview: ''},
-]);
+const allProjects = ref([]);
 const value = ref(true);
 const filtroSelecionado = ref('alphabetical');
 const filtros = [
@@ -29,9 +24,7 @@ const projetosOrdenados = computed(() => {
   }
 });
 
-onMounted(() => {
-  console.log(allProjects);
-  
+onMounted(() => {  
   const projetosSalvos = localStorage.getItem('allProjects')
   if (projetosSalvos) {
     allProjects.value = JSON.parse(projetosSalvos)

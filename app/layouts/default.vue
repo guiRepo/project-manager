@@ -2,7 +2,7 @@
 	<div>
 		<nav class="navBar">
       <NuxtLink to="/" class="logo">
-        <img src="~assets/images/logo.svg" alt="Ir para Home">
+        <img src="~assets/images/logo.png" alt="Ir para Home"   loading="lazy">
       </NuxtLink>
             
 		</nav>
@@ -29,9 +29,6 @@
   width: 95%;            
   height: 880px;
   max-width: 100%; 
-  border-width:  1px;
-  border-color: black;
-  border-radius: 4px  black;
   box-sizing: border-box; 
 }
 .logo img {
@@ -42,5 +39,6 @@
 }
 .logo img:hover {
   transform: scale(1.05);
+  z-index: 5;
 }
 </style>
