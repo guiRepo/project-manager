@@ -12,9 +12,6 @@ defineProps({
 const isFavorite = ref(false);
 const defaultImage = new URL('@/assets/images/default-cover.png', import.meta.url).href; 
 
-const onEdit = () => {
-  console.log('Editar clicado')
-}
 const onDelete = () => {
   console.log('Excluir clicado')
 }

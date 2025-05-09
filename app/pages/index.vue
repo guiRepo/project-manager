@@ -64,10 +64,9 @@
 		text-align: center;
 		margin-block: 10px;
 	}
-
 	.icon {
-		margin-top: 5px;          /* Ajuste da distância entre o ícone e o texto */
-		width: calc(var(--spacing) * 6) /* 1.5rem = 24px */;
-  	height: calc(var(--spacing) * 6) /* 1.5rem = 24px */;
+		margin-top: 5px;
+		width: calc(var(--spacing) * 6);
+  	height: calc(var(--spacing) * 6);
 	}
 </style>
