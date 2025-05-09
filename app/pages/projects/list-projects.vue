@@ -1,55 +1,34 @@
 <script setup lang="ts">
 import CardProject from '~/components/CardProject.vue';
 
-const listProjects = [
-  {
-    projectName: 'Bruce',
-    client: 'batman',
-    beginDate: '11/11/1111',
-    endDate: '12/12/1212',
-    cover: new URL('@/assets/images/proj.png', import.meta.url).href 
-  },  
-  {
-    projectName: 'Clark',
-    client: 'superman',
-    beginDate: '11/11/1111',
-    endDate: '12/12/1212',
-    cover: ''
-  },
-  {
-    projectName: 'Diana',
-    client: 'wonderwoman',
-    beginDate: '11/11/1111',
-    endDate: '12/12/1212',
-    cover: ''
-  },
-  {
-    projectName: 'Hal',
-    client: 'greenlantern',
-    beginDate: '11/11/1111',
-    endDate: '12/12/1212',
-    cover: ''
-  },
-  {
-    projectName: 'Bart',
-    client: 'flash',
-    beginDate: '11/11/1111',
-    endDate: '12/12/1212',
-    cover: ''
-  },
-  {
-    projectName: 'Bart',
-    client: 'flash',
-    beginDate: '11/11/1111',
-    endDate: '12/12/1212',
-    cover: ''
-  }
+const allProjects = [
+  { projectName: 'Bruce',     client: 'batman',  beginDate: '2023-11-10', endDate: '2024-12-01', cover: new URL('@/assets/images/proj.png', import.meta.url).href },
+  { projectName: 'Clark', client: 'superman', beginDate: '2024-01-01', endDate: '2024-06-01', cover: ''},
+  { projectName: 'Diana', client: 'wonderwoman', beginDate: '2022-03-10', endDate: '2023-01-01', cover: ''},
+  { projectName: 'Hal', client: 'greenlanter', beginDate: '2024-03-15', endDate: '2024-04-20', cover: ''},
+];
+const value = ref(true);
+
+const filtros = [
+  { label: 'Orden alfabética', value: 'alphabetical' },
+  { label: 'Mais recentes', value: 'recent' },
+  { label: 'Prazo mais próximo', value: 'deadline' }
 ]
+const filtroSelecionado = ref('alphabetical');
 
-const value = ref(true)
-
-const itemsSelect = ref(['Ordem alfabética', 'Iniciados mais recentes', 'Prazo mais proximo'])
-const valueSelect = ref('')
+const projetosOrdenados = computed(() => {
+  const lista = [...allProjects]
+  switch (filtroSelecionado.value) {
+    case 'alphabetical':
+      return lista.sort((a, b) => a.projectName.localeCompare(b.projectName))
+    case 'recent':
+      return lista.sort((a, b) => new Date(b.beginDate).getTime() - new Date(a.beginDate).getTime())
+    case 'deadline':
+      return lista.sort((a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime())
+    default:
+      return lista
+  }
+});
 
 </script>
 
@@ -57,16 +36,15 @@ const valueSelect = ref('')
 	<main class="container px-4 md:px-8">
     <div class="header">
       <div class="left-side">
-        <h1 class="list-project-title">Projeto  <span class="number-projects">({{ listProjects.length }})</span></h1>
+        <h1 class="list-project-title">Projeto  <span class="number-projects">({{ projetosOrdenados.length }})</span></h1>
       </div>
 
       <div class="rigth-side">
         <USwitch v-model="value" />
         <span class="favorites-text"> Apenas favoritos</span>
-        <select v-model="valueSelect" class="custom-select">
-          <option value="" disabled>Selecione uma opção</option>
-          <option v-for="(option, index) in itemsSelect" :key="index" :value="option">
-            {{ option }}
+        <select v-model="filtroSelecionado" class="custom-select">
+          <option v-for="filtro in filtros" :key="filtro.value" :value="filtro.value">
+            {{ filtro.label }}
           </option>
         </select>
         <NuxtLink to="/projects/new">
@@ -81,7 +59,7 @@ const valueSelect = ref('')
     
   <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       <CardProject
-        v-for="(projeto, index) in listProjects"
+        v-for="(projeto, index) in projetosOrdenados"
         :key="index"
         :title="projeto.projectName"
         :sub-title="projeto.client"

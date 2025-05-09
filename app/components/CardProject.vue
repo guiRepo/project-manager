@@ -74,7 +74,7 @@ const itemsDropDownMenu = ref<DropdownMenuItem[]>([
   </div>
 </template>
 
-<style scoped>
+<style >
 .card-container {
   width: 100%;
   max-width: 346px; 
