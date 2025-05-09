@@ -1,48 +1,48 @@
 <script setup lang="ts">
-import CardProject from '~/components/CardProject.vue';
+  import CardProject from '~/components/CardProject.vue';
 
-const allProjects = ref([]);
-const value = ref(true);
-const filtroSelecionado = ref('alphabetical');
-const filtros = [
-  { label: 'Orden alfabética', value: 'alphabetical' },
-  { label: 'Mais recentes', value: 'recent' },
-  { label: 'Prazo mais próximo', value: 'deadline' }
-]
+  const allProjects = ref([]);
+  const value = ref(true);
+  const filtroSelecionado = ref('alphabetical');
+  const filtros = [
+    { label: 'Orden alfabética', value: 'alphabetical' },
+    { label: 'Mais recentes', value: 'recent' },
+    { label: 'Prazo mais próximo', value: 'deadline' }
+  ];
 
-const projetosOrdenados = computed(() => {
-  const lista = [...allProjects.value]
-  switch (filtroSelecionado.value) {
-    case 'alphabetical':
-      return lista.sort((a, b) => a.projectName.localeCompare(b.projectName))
-    case 'recent':
-      return lista.sort((a, b) => new Date(b.beginDate).getTime() - new Date(a.beginDate).getTime())
-    case 'deadline':
-      return lista.sort((a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime())
-    default:
-      return lista
-  }
-});
+  onMounted(() => {  
+    const projetosSalvos = localStorage.getItem('allProjects')
+    if (projetosSalvos) {
+      allProjects.value = JSON.parse(projetosSalvos)
+    }
 
-onMounted(() => {  
-  const projetosSalvos = localStorage.getItem('allProjects')
-  if (projetosSalvos) {
-    allProjects.value = JSON.parse(projetosSalvos)
-  }
-
-  const dados = localStorage.getItem('novoProjeto')
-  
-  if (dados) {
-    console.log(dados);
+    const dados = localStorage.getItem('novoProjeto')
     
-    allProjects.value.push(JSON.parse(dados))
-    localStorage.removeItem('novoProjeto')
-  }
-})
+    if (dados) {
+      console.log(dados);
+      
+      allProjects.value.push(JSON.parse(dados))
+      localStorage.removeItem('novoProjeto')
+    }
+  });
 
-watch(allProjects, (novaLista) => {
-  localStorage.setItem('allProjects', JSON.stringify(novaLista))
-}, { deep: true })
+  watch(allProjects, (novaLista) => {
+    localStorage.setItem('allProjects', JSON.stringify(novaLista))
+  }, { deep: true });
+
+  const projetosOrdenados = computed(() => {
+    const lista = [...allProjects.value]
+    switch (filtroSelecionado.value) {
+      case 'alphabetical':
+        return lista.sort((a, b) => a.projectName.localeCompare(b.projectName))
+      case 'recent':
+        return lista.sort((a, b) => new Date(b.beginDate).getTime() - new Date(a.beginDate).getTime())
+      case 'deadline':
+        return lista.sort((a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime())
+      default:
+        return lista
+    }
+  });
 </script>
 
 <template>

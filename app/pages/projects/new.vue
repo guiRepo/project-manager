@@ -2,8 +2,8 @@
 	import { ref } from 'vue'
 	import { useRouter } from 'vue-router'
 
-	const router = useRouter()
-	const form = ref({ projectId: Math.random().toString(36).substring(2, 15), projectName: '', client: '', beginDate: '', endDate: '', cover: null, capaPreview: ''})
+	const router = useRouter();
+	const form = ref({ projectId: Math.random().toString(36).substring(2, 15), projectName: '', client: '', beginDate: '', endDate: '', cover: null, capaPreview: ''});
 
 	const handleFile = (e) => {
 		const file = e.target.files[0]
@@ -11,12 +11,12 @@
 			form.value.cover = file
 			form.value.capaPreview = URL.createObjectURL(file)
 		}
-	}
+	};
 
 	const handleSubmit = () => {
 		localStorage.setItem('novoProjeto', JSON.stringify(form.value))		
 		router.push('/projects/list-projects') 
-	}
+	};
 </script>
 
 <template>
@@ -106,8 +106,8 @@
 	}
 	.icon {
 		color: #695CCD;
-		width: calc(var(--spacing) * 6) /* 1.5rem = 24px */;
-  	height: calc(var(--spacing) * 6) /* 1.5rem = 24px */;
+		width: calc(var(--spacing) * 6);
+  	height: calc(var(--spacing) * 6);
 	}
 	.new-project-title {
 		color: #1F1283;

@@ -13,13 +13,13 @@
 			cover: File | null
 			capaPreview: string
 		}
-	}>()
+	}>();
 	
 	onMounted(()=> {
-		const data = localStorage.getItem('editarProjeto')
+		const data = localStorage.getItem('editarProjeto');
 		if (data) {
-			const projeto = JSON.parse(data)
-			Object.assign(form, projeto)
+			const projeto = JSON.parse(data);
+			Object.assign(form, projeto);
 		}
 	})
 
@@ -27,7 +27,7 @@
 		if (novoValor) {
 			Object.assign(form, novoValor)
 		}
-	}, { immediate: true })
+	}, { immediate: true });
 
 	const handleFile = (e) => {
 		const file = e.target.files[0]
@@ -38,23 +38,21 @@
 	}
 
 	const handleSubmit = () => {
-  const projetoAtualizado = { ...form }
+		const projetoAtualizado = { ...form };
 
-  const listaString = localStorage.getItem('allProjects')
-  let lista = listaString ? JSON.parse(listaString) : []
+		const listaString = localStorage.getItem('allProjects');
+		let lista = listaString ? JSON.parse(listaString) : [];
 
-  // Substitui o projeto pelo mesmo id
-  lista = lista.map((p) => {
-    if (p.id === props.initialData?.projectId) {
-      return { ...p, ...projetoAtualizado }
-    }
-    return p
-  })
+		lista = lista.map((p) => {
+			if (p.id === props.initialData?.projectId) {
+				return { ...p, ...projetoAtualizado }
+			}
+			return p;
+  	});
 
-  localStorage.setItem('allProjects', JSON.stringify(lista))
-
-  localStorage.removeItem('editarProjeto')
-  router.push('/projects/list-projects')
+		localStorage.setItem('allProjects', JSON.stringify(lista));
+		localStorage.removeItem('editarProjeto');
+		router.push('/projects/list-projects');
 }
 </script>
 
@@ -145,8 +143,8 @@
 	}
 	.icon {
 		color: #695CCD;
-		width: calc(var(--spacing) * 6) /* 1.5rem = 24px */;
-  	height: calc(var(--spacing) * 6) /* 1.5rem = 24px */;
+		width: calc(var(--spacing) * 6);
+  	height: calc(var(--spacing) * 6);
 	}
 	.new-project-title {
 		color: #1F1283;

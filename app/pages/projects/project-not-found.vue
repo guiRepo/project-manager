@@ -1,6 +1,3 @@
-<script setup>
-</script>
-
 <template>
 	<div class="container">	
 		<h1 class="title">Nenhum projeto</h1>
@@ -8,8 +5,8 @@
 		<NuxtLink to="/projects/new" class="new-project">
 			<button class="new-project-button">
 				<UIcon name="i-lucide-circle-plus" class="icon" />
-			<label class="new-project-button-text">Novo projeto</label>
-		</button>
+				<label	label class="new-project-button-text">Novo projeto</label>
+			</button>
 		</NuxtLink>
 	</div>
 </template>
