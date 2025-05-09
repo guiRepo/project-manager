@@ -1,7 +1,8 @@
 <script setup lang="ts">
   import CardProject from '~/components/CardProject.vue';
+  import type { Project } from '@/types/Project';
 
-  const allProjects = ref([]);
+  const allProjects = ref<Project[]>([]);
   const value = ref(true);
   const filtroSelecionado = ref('alphabetical');
   const filtros = [
@@ -11,18 +12,15 @@
   ];
 
   onMounted(() => {  
-    const projetosSalvos = localStorage.getItem('allProjects')
-    if (projetosSalvos) {
-      allProjects.value = JSON.parse(projetosSalvos)
-    }
+    const projetosSalvos = localStorage.getItem('allProjects');
+    if (projetosSalvos) 
+      allProjects.value = JSON.parse(projetosSalvos);
 
-    const dados = localStorage.getItem('novoProjeto')
+    const dados = localStorage.getItem('novoProjeto');
     
     if (dados) {
-      console.log(dados);
-      
-      allProjects.value.push(JSON.parse(dados))
-      localStorage.removeItem('novoProjeto')
+      allProjects.value.push(JSON.parse(dados));
+      localStorage.removeItem('novoProjeto');
     }
   });
 
